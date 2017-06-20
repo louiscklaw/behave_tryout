@@ -2,10 +2,8 @@
 # https://jenisys.github.io/behave.example/intro.html
 
 Feature: HKO 9day forecast UI test
-  Background:
-     | platform  | version     |
-     | Android   | 7.1.1       |
-    Given installed "./hko.apk" on <mobile> ver <version>
+  Scenario Outline: Run a simple test abotu HKO 9day forecast
+    Given installed the "<App>" on "<platform>" "<type>" ver "<version>"
      # go through 1st launch process
      and Agree Disclaimer Page
      and Agree Privacy Policy Statements
@@ -14,13 +12,17 @@ Feature: HKO 9day forecast UI test
      and ALLOW OSPermission "Allow MyObservatory to access this device's location?"
      and Close "What's New Dialog"
 
-  Scenario: Run a simple test abotu HKO 9day forecast
+     # doen 1st launch greetings
      #When we tap on "android.widget.ImageButton":"content-desc":"Navigate up"
      #When we tap on "android.widget.TextView":"text":"MyObservatory"
-     Given we tap on specific location "112":"112"
-     and press "DOWN" until "android.widget.TextView":"text":"HK 9-Day Forecast" appears
-     #and tap on "HK 9-Day Forecast"
 
+     # Natvigate to 9 day forecast page
+     Given tap on specific location "112":"112"
+     and press "DOWN" until "android.widget.TextView":"text":"HK 9-Day Forecast" appears
+     and tap on button "android.widget.TextView":"text":"HK 9-Day Forecast"
+
+     # Expect
+     Given press "DOWN" until "android.widget.TextView":"text":"28 Jun" appears
      #then 9days forecast view comes up
      #and with the description
      #and with the 1st day forecast
@@ -37,6 +39,7 @@ Feature: HKO 9day forecast UI test
      #and with the 8st day forecast
      #and with the 9st day forecast
 
-
-
+  Examples: Android kind
+    | App       | type  | platform | version |
+    | ./hko.apk | phone | Android  | 7.1.1   |
 

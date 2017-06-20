@@ -17,7 +17,8 @@ def step_impl(content):
     # #### Disclaimer page
     #     * android.widget.Button -> Agree
     finger.f_ClickElementByText(
-        content.appiumSession, 'android.widget.Button', 'Agree')
+        content.appiumSession,
+        'android.widget.Button', 'Agree')
 
 
 @given("Agree Privacy Policy Statements")
@@ -25,7 +26,8 @@ def step_impl(content):
     # #### Privacy Policy Statements
     #     * android.widget.Button -> Agree
     finger.f_ClickElementByText(
-        content.appiumSession, 'android.widget.Button', 'Agree')
+        content.appiumSession,
+        'android.widget.Button', 'Agree')
 
 # @given(u'Accept OSPermission {sPermsissionQuestions:s}')
 
@@ -39,7 +41,8 @@ def step_impl(content):
     # NOTE on 6.0 -> it is Allow
     # NOTE on 4.1.1 -> it doesn't appear
     finger.f_AndroidAnswerToOSPermission(
-        content.appiumSession, android_os_permission_button.PERMISSION_DENY)
+        content.appiumSession,
+        android_os_permission_button.PERMISSION_DENY)
 
 
 @given(u'{sAnswer} OSPermission {sQuestion}')
@@ -52,10 +55,12 @@ def step_impl(content, sQuestion, sAnswer):
     # NOTE on 4.1.1 -> it doesn't appear
     if sAnswer.upper() == 'ALLOW':
         finger.f_AndroidAnswerToOSPermission(
-            content.appiumSession, sQuestion, android_os_permission_button.PERMISSION_ALLOW)
+            content.appiumSession,
+            sQuestion, android_os_permission_button.PERMISSION_ALLOW)
     elif sAnswer.upper() == 'DENY':
         finger.f_AndroidAnswerToOSPermission(
-            content.appiumSession, sQuestion, android_os_permission_button.PERMISSION_DENY)
+            content.appiumSession,
+            sQuestion, android_os_permission_button.PERMISSION_DENY)
     else:
         # logging.error('unhandled option %s' % sAnswer)
         pass
@@ -74,22 +79,23 @@ def step_impl(content, sText):
     pass
 
 
-@given("we tap on button {sWidget}:{sProperties}:{sDescription}")
+@given('tap on button "{sWidget}":"{sProperties}":"{sDescription}"')
 def step_impl(content, sWidget, sProperties, sDescription):
     finger.f_TapWidgetByPropertiesAndValue(
-        content.appiumSession, sWidget, sProperties, sDescription)
+        content.appiumSession,
+        sWidget, sProperties, sDescription)
     sleep(1)
     pass
 
 
-@when('we tap on location "{iX:d}":"{iY:d}"')
+@given('tap on specific location "{iX:d}":"{iY:d}"')
 def step_impl(content, iX, iY):
     content.appiumSession.tap([(iX, iY)], 1)
     sleep(1)
     pass
 
 
-@when('press "{dPadKey}" until "{sWidget}":"{sProp}":"{sTarget}" appears')
+@given('press "{dPadKey}" until "{sWidget}":"{sProp}":"{sTarget}" appears')
 def step_impl(content, sWidget, sProp, sTarget, dPadKey):
     iCountDown = 15
     bFound = False
@@ -100,13 +106,15 @@ def step_impl(content, sWidget, sProp, sTarget, dPadKey):
 
     while not(bFound) or bRetry:
         els = finger.f_FindTargetByXPath(
-            content.appiumSession, sWidget, sProp, sTarget)
+            content.appiumSession,
+            sWidget, sProp, sTarget)
         if els:
             bFound = True
             bRetry = False
         else:
             iCountDown -= 1
-            finger.f_PressKey(content.appiumSession, dPadKey)
+            finger.f_PressKey(content.appiumSession,
+                              dPadKey)
 
         if iCountDown == 0:
             bRetry = False

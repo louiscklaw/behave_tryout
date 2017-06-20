@@ -37,7 +37,8 @@ class finger():
         # IDEA try to reach the clickable thing buy it properties,
         # otherwise, find it's parents
         els = finger.f_FindTargetByXPath(
-            appiumSession, sWidget, sProperties, sValue)
+            appiumSession,
+            sWidget, sProperties, sValue)
         if els:
             sleep(1)
             els[0].click()
