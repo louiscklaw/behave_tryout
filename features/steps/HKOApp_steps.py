@@ -9,12 +9,7 @@ from android_function import finger
 from android_const import android_key_const
 from android_const import android_os_permission_button
 
-DUT_ANDROID_VERSION = '7.1.1'
-
-
-def PATH(p): return os.path.abspath(
-    os.path.join(os.path.dirname(__file__), p)
-)
+from time import sleep
 
 
 @given("Agree Disclaimer Page")
@@ -83,12 +78,14 @@ def step_impl(content, sText):
 def step_impl(content, sWidget, sProperties, sDescription):
     finger.f_TapWidgetByPropertiesAndValue(
         content.appiumSession, sWidget, sProperties, sDescription)
+    sleep(1)
     pass
 
 
 @when('we tap on location "{iX:d}":"{iY:d}"')
 def step_impl(content, iX, iY):
     content.appiumSession.tap([(iX, iY)], 1)
+    sleep(1)
     pass
 
 
