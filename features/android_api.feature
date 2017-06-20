@@ -1,6 +1,14 @@
 Feature: HKO 9day forecast UI test
-  Scenario: Run a simple test abotu HKO 9day forecast
-    Given started "com.example.android.apis" activity "com.example.android.apis.ApiDemos" on "Android" ver "7.1.1"
-    when we tap on android.widget.TextView:text:Accessibility
 
-    then close appium
+
+
+  Scenario Outline: Run a simple test abotu HKO 9day forecast
+    Background:
+      Given installed the "<App>" on "<platform>" "<type>" ver "<version>"
+    Given we tap on button android.widget.TextView:text:Accessibility
+
+    then quit appium
+
+  Examples: Android kind
+    | App       | type  | platform | version |
+    | ./hko.apk | phone | Android  | 7.1.1   |

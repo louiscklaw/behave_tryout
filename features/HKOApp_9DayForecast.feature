@@ -2,8 +2,10 @@
 # https://jenisys.github.io/behave.example/intro.html
 
 Feature: HKO 9day forecast UI test
-  Scenario: Run a simple test abotu HKO 9day forecast
-    Given installed "./hko.apk" on "Android" ver "7.1.1"
+  Background:
+     | platform  | version     |
+     | Android   | 7.1.1       |
+    Given installed "./hko.apk" on <mobile> ver <version>
      # go through 1st launch process
      and Agree Disclaimer Page
      and Agree Privacy Policy Statements
@@ -12,9 +14,10 @@ Feature: HKO 9day forecast UI test
      and ALLOW OSPermission "Allow MyObservatory to access this device's location?"
      and Close "What's New Dialog"
 
+  Scenario: Run a simple test abotu HKO 9day forecast
      #When we tap on "android.widget.ImageButton":"content-desc":"Navigate up"
      #When we tap on "android.widget.TextView":"text":"MyObservatory"
-     When we tap on specific location "112":"112"
+     Given we tap on specific location "112":"112"
      and press "DOWN" until "android.widget.TextView":"text":"HK 9-Day Forecast" appears
      #and tap on "HK 9-Day Forecast"
 
@@ -36,4 +39,4 @@ Feature: HKO 9day forecast UI test
 
 
 
-    Then close appium
+
