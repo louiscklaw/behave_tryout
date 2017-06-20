@@ -58,13 +58,16 @@ def install_android_application(content, App, type, platform, version):
 
 
 # com.example.android.apis
-@given('started {packageName} activity {sActivity} on "{sPlatform}" ver "{sVersion}"')
+@given('started "{packageName}" activity "{sActivity}" on "{sPlatform}" ver "{sVersion}"')
 def step_impl(content, packageName, sActivity, sPlatform, sVersion):
     desired_caps = {}
     desired_caps['platformName'] = sPlatform
     desired_caps['platformVersion'] = sVersion
     desired_caps['deviceName'] = DUT_DEVICE
     desired_caps['appPackage'] = packageName
+
+    # NOTE grep by
+    # adb shell dumpsys window windows | grep -E 'mCurrentFocus|mFocusedApp'
     desired_caps['appActivity'] = sActivity
 
     # output a appiumSession for latter use

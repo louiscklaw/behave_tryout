@@ -17,9 +17,6 @@ def PATH(p): return os.path.abspath(
 )
 
 
-sHKOAppId = 'hko.MyObservatory_v1_0'
-
-
 def uninstall_app(content, app_id):
     content.appiumSession.remove_app(app_id)
     pass
@@ -40,7 +37,7 @@ def before_scensrio(content, scenario):
 
 def after_scenario(content, scenario):
     if hasattr(content, 'appiumSession'):
-        uninstall_app(content, sHKOAppId)
+        # uninstall_app(content, sHKOAppId)
         quit_appiumSession(content)
         print('uninstall application')
     pass

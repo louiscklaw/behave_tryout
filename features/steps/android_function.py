@@ -41,7 +41,9 @@ class finger():
         if els:
             sleep(1)
             els[0].click()
-            raise('thing found')
+
+            # NOTE for debug
+            # raise('thing found')
         pass
 
     def f_click_natvigate_button(appiumSession):
