@@ -6,7 +6,7 @@ import sys
 
 DUT_DEVICE = '192.168.56.102:5555'
 
-sApkName = './hko.apk'
+(sApkName, sHKOAppId) = ('./hko.apk', 'hko.MyObservatory_v1_0')
 
 # def before_all(content):
 #     content.config.setup_logging()

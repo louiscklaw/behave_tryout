@@ -18,26 +18,15 @@ Feature: HKO 9day forecast UI test
 
      # Natvigate to 9 day forecast page
      Given tap on specific location "112":"112"
-     and press "DOWN" until "android.widget.TextView":"text":"HK 9-Day Forecast" appears
+     and press "DOWN" (max: 15) and "android.widget.TextView":"text":HK 9-Day Forecast appears
      and tap on button "android.widget.TextView":"text":"HK 9-Day Forecast"
 
      # Expect
-     Given press "DOWN" until "android.widget.TextView":"text":"28 Jun" appears
-     #then 9days forecast view comes up
-     #and with the description
-     #and with the 1st day forecast
-     #and with the 2st day forecast
-     #and with the 3st day forecast
+     Then Fail if the "HK 9-Day Forecast" not appears on screen
 
-     #then scroll down
-     #and with the 4st day forecast
-     #and with the 5st day forecast
-     #and with the 6st day forecast
+     # Expect
+     Then press "DOWN" (max: 15) and "android.widget.TextView":"text":9day weather forecast appears
 
-     #then scroll down
-     #and with the 7st day forecast
-     #and with the 8st day forecast
-     #and with the 9st day forecast
 
   Examples: Android kind
     | App       | type  | platform | version |
