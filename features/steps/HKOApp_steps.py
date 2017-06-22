@@ -11,6 +11,16 @@ from android_const import android_os_permission_button
 
 from time import sleep
 
+from pprint import pprint
+
+from datetime import datetime
+from datetime import timedelta
+
+
+def fAndroidKeyConstLookup(sKey):
+    if sKey.upper() == 'DOWN':
+        return android_key_const.KEYCODE_DPAD_DOWN
+
 
 @given("Agree Disclaimer Page")
 def step_impl(content):
@@ -95,14 +105,67 @@ def step_impl(content, iX, iY):
     pass
 
 
-@given('press "{dPadKey}" until "{sWidget}":"{sProp}":"{sTarget}" appears')
-def step_impl(content, sWidget, sProp, sTarget, dPadKey):
-    iCountDown = 15
+@step(u'Fail if the "{Text}" not appears on screen')
+def Fail_if_the_Text_not_appears(content, Text):
+    lLookFor = finger.f_FindTargetByXPath(
+        content.appiumSession,
+        "android.widget.TextView", "text", Text
+    )
+
+    if isinstance(lLookFor, list) and len(lLookFor) == 1:
+        pass
+    else:
+        assert False
+
+
+@step('press "{dPadKey}" (max: {iMaxDPadTry:d}) and "{sWidget}":"{sProp}":{iNumOfForecast:d}day weather forecast appears')
+def step_impl(content, sWidget, sProp, dPadKey, iMaxDPadTry, iNumOfForecast):
+    iCountDown = iMaxDPadTry
+
+    dPadKey = fAndroidKeyConstLookup(dPadKey)
+
+    ldtForecast = [datetime.today() + timedelta(days=iDelta)
+                   for iDelta in range(1, iNumOfForecast + 1)]
+    lsExpectedForecast_Day = [dtForecast.strftime("%-d %b")
+                              for dtForecast in ldtForecast]
+
+    for sExpectedForecast_Day in lsExpectedForecast_Day:
+
+        bFound = False
+        bRetry = True
+
+        while not(bFound) and bRetry:
+            els = finger.f_FindTargetByXPath(
+                content.appiumSession,
+                sWidget, sProp, sExpectedForecast_Day)
+
+            if els:
+
+                bFound = True
+                bRetry = False
+            else:
+                iCountDown -= 1
+                finger.f_PressKey(content.appiumSession,
+                                  dPadKey)
+
+            if iCountDown <= 0:
+                bRetry = False
+
+        if not(bFound):
+            assert False
+
+
+@step('press "{dPadKey}" (max: {iMaxDPadTry:d}) and "{sWidget}":"{sProp}":{sTarget} appears')
+def step_impl(content, sWidget, sProp, sTarget, dPadKey, iMaxDPadTry):
+    iCountDown = iMaxDPadTry
     bFound = False
 
     # NOTE text to key constant
-    if dPadKey.upper() == 'DOWN':
-        dPadKey = android_key_const.KEYCODE_DPAD_DOWN
+    # TODO remove me
+    # if dPadKey.upper() == 'DOWN':
+    #     dPadKey = android_key_const.KEYCODE_DPAD_DOWN
+
+    dPadKey = fAndroidKeyConstLookup(dPadKey)
 
     while not(bFound) or bRetry:
         els = finger.f_FindTargetByXPath(
@@ -120,7 +183,7 @@ def step_impl(content, sWidget, sProp, sTarget, dPadKey):
             bRetry = False
 
     if not(bFound):
-        raise('wanted %s not found')
+        assert False
 
 
 # try space with space
@@ -129,7 +192,16 @@ def step_impl(content, sSpace):
     print(sSpace)
 
 
-def after_scenario(content):
-    # NOTE quit appoim session created
-    if content.appiumSession:
-        content.appiumSession.quit()
+@step('Please make me fail -> {failReason}')
+def step_impl(content, failReason):
+    assert failReason != 'MercyPlease'
+
+# def after_scenario(content):
+#     # NOTE quit appoim session created
+#     if content.appiumSession:
+#         content.appiumSession.quit()
+
+
+# @step('press "{dPadKey}" (max: {iMaxDPadTry}) and expect today+{iDayDelta} appears in forcast drawer')
+# def step_impl(content, dPadKey, iMaxDPadTry, iDayDelta):
+#     dPadKey = fAndroidKeyConstLookup(dPadKey)

@@ -1,5 +1,8 @@
 # -- FILE:features/environment.py
 from appium import webdriver
+import os
+import sys
+
 
 DUT_DEVICE = '192.168.56.102:5555'
 
@@ -37,7 +40,7 @@ def before_scensrio(content, scenario):
 
 def after_scenario(content, scenario):
     if hasattr(content, 'appiumSession'):
-        # uninstall_app(content, sHKOAppId)
+        uninstall_app(content, sHKOAppId)
         quit_appiumSession(content)
         print('uninstall application')
     pass
