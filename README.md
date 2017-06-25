@@ -13,7 +13,12 @@ pip install -r requirements.txt
 ### to execute:
     * setup virtual environment
     ```shell
+virtualenv venv
 source venv/bin/activate
+    * install python libraries
+    ```shell 
+pip install -r requirements.txt
+    ```
     ```
     * start appium -> connect to android / genymotion
     ```
